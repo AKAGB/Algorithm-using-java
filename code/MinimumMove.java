@@ -1,11 +1,15 @@
 public class MinimumMove {
     public static void main(String[] args) {
         MinimumMove obj = new MinimumMove();
-        int[] a = new int[] {1, 213123131};
+        int[] a = new int[] {32,60,76,68,39,12,26,86,94,39};
         System.out.println(obj.minMoves(a));
     }
 
     public int minMoves(int[] nums) {
+        // 自己的做法，推导了很多公式..
+        // 其实看了讨论才发现自己很蠢的把本来能直接写等号的式子写了不等式
+        // 才有了下面这么多冗余代码
+        // 其实就只有一个公式 result = sum - n * mMin
         if (nums.length == 1) return 0;
         int nMin = nums[0];
         long sum = nums[0];
@@ -17,9 +21,13 @@ public class MinimumMove {
         }
         if (flag) return 0;
 
-        int k = 1, n = nums.length;
-        while ((sum + (n - 1) * k) % n != 0 || nMin + k < ((sum + (n - 1) * k) / n))
-            k++;
-        return k;
+        long n = nums.length;
+        sum += 2147483648L * n;
+        nMin += 2147483648L;
+        long b = n - (sum % n);
+        long c = (n-1)*(sum - n*nMin) / b;
+        int result = (int)(c * b / (n - 1));
+        result = (c * b % (n - 1) == 0) ? result : result+1;
+        return result;
     }
 }
