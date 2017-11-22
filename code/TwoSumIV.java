@@ -16,8 +16,19 @@ public class TwoSumIV {
 
     public boolean findTarget(TreeNode root, int k) {
         // 思路(暴力)：遍历树把元素放到数组里，然后遍历数组，复杂度是O(n^2)
-        
+        if (root == null) return false;
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.offer(root);
 
+        // 层序遍历
+        while (q.peek() != null) {
+            TreeNode node = q.poll();
+            if (node.left != null) q.offer(node.left);
+            if (node.right != null) q.offer(node.right);
+
+            if (node.val * 2 != k && TreeNode.treefind(root, k - root.val)) return true;
+        }
+        return false;
     }
 
 
