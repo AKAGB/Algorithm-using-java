@@ -5,7 +5,12 @@ public class PrimeNum {
     }
 
     public int countPrimeSetBits(int L, int R) {
-        c
+        int count = 0;
+        for (int i = L; i <= R; i++) {
+            if (isPrime(Integer.bitCount(i)))
+                count++;
+        }
+        return count;
     }
 
     public boolean isPrime(int num) {
